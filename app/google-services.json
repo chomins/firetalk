@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "767723457379",
+    "firebase_url": "https://group-chatting-44d82.firebaseio.com",
+    "project_id": "group-chatting-44d82",
+    "storage_bucket": "group-chatting-44d82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767723457379:android:fd86f4b8885d7bb4c2e156",
+        "android_client_info": {
+          "package_name": "com.test.myapplication1123"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767723457379-7nfv0qa3na4vd8kgmelv8jrq2he7r4tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZT0C07oJMZO6a6sGPYRPQFlIlcGHqgaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767723457379-7nfv0qa3na4vd8kgmelv8jrq2he7r4tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
