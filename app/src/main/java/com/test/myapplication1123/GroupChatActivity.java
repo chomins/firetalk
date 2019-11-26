@@ -1,5 +1,6 @@
 package com.test.myapplication1123;
 
+//그룹채팅- 20150465조민수 만듬
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.test.myapplication1123.Adapters.MessageAdapter;
 import com.test.myapplication1123.Models.AllMethods;
 import com.test.myapplication1123.Models.Message;
@@ -37,8 +39,9 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference messagedb;
+    FirebaseFirestore messagedb2;
     MessageAdapter messageAdapter;
-    User u;
+    User u; //user클래스 u는 유저정보를 담은 클래스입니다.
     List<Message> messages;
 
 
@@ -54,7 +57,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
         init();
     }
 
-    private void init(){
+    private void init(){  //액티비티가 실행되었을때 뷰와 메시지를 보낼수 있는 버튼 ui를 생성합니다.
         auth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         u=new User();
@@ -69,7 +72,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view) { //send 버튼을 클릭했을때 빈칸이라면 보낼수 없게하고 다른경우에는 디비에 값을 보낼수 있도록 합니다.
         if(!TextUtils.isEmpty(etMessage.getText().toString()))
         {
             Message message = new Message(etMessage.getText().toString(),u.getName());
@@ -84,7 +87,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) { //로그아웃을 할수 있는 옵션메뉴입니다.
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
@@ -102,7 +105,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
 
     protected void onStart() {
         super.onStart();
-        final FirebaseUser currentUser= auth.getCurrentUser();
+        final FirebaseUser currentUser= auth.getCurrentUser(); //로그인된 유저를 가져옵니다.
         u.setUid(currentUser.getUid());
         u.setEmail(currentUser.getEmail());
 
@@ -123,7 +126,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
         messagedb = database.getReference("messages");
         messagedb.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { //메시지가 생성되었을때 디비로 보내주는역할을 합니다.
                 Message message = dataSnapshot.getValue(Message.class);
                 message.setKey(dataSnapshot.getKey());
                 messages.add(message);
@@ -150,7 +153,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { //메시지를 삭제할수 있는 기능을 합니다.
                 Message message = dataSnapshot.getValue(Message.class);
                 message.setKey(dataSnapshot.getKey());
                 List<Message> newMessages = new ArrayList<Message>();
@@ -183,7 +186,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void displayMessages(List<Message> messages) {
+    private void displayMessages(List<Message> messages) { //메시지를 화면에 출력하는 역할을 합니다.
         rvMessage.setLayoutManager(new LinearLayoutManager(GroupChatActivity.this));
         messageAdapter = new MessageAdapter(GroupChatActivity.this,messages,messagedb);
         rvMessage.setAdapter(messageAdapter);
