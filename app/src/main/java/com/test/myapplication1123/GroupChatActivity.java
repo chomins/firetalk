@@ -153,7 +153,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { //메시지를 삭제할수 있는 기능을 합니다.
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { //메시지를 DB에서 삭제할수 있는 기능을 합니다.
                 Message message = dataSnapshot.getValue(Message.class);
                 message.setKey(dataSnapshot.getKey());
                 List<Message> newMessages = new ArrayList<Message>();
@@ -187,8 +187,8 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void displayMessages(List<Message> messages) { //메시지를 화면에 출력하는 역할을 합니다.
-        rvMessage.setLayoutManager(new LinearLayoutManager(GroupChatActivity.this));
-        messageAdapter = new MessageAdapter(GroupChatActivity.this,messages,messagedb);
-        rvMessage.setAdapter(messageAdapter);
+        rvMessage.setLayoutManager(new LinearLayoutManager(GroupChatActivity.this)); //rvMessage는 RecycleViewMessage입니다. 그룹채팅 액티비티를 Recycleview 레이아웃으로 설정합니다.
+        messageAdapter = new MessageAdapter(GroupChatActivity.this,messages,messagedb); //그룹채팅 엑티비티에서 사용하고 메시지와 메시지 DB를 MessageAdapter에 넘겨줍니다.
+        rvMessage.setAdapter(messageAdapter); //rvMessage에 어댑터를 messageAdapter객체로 설정함
     }
 }

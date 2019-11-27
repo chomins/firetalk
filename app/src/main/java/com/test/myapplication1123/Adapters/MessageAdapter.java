@@ -23,14 +23,14 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageAdapterViewHolder>
 {
 
-    Context context;
-    List<Message> messages;
-    DatabaseReference messageDb;
+    Context context; //액티비티 이름
+    List<Message> messages; // 메시지목록
+    DatabaseReference messageDb; // 메시지목록이 저장되어잇는 DB
 
     public MessageAdapter(Context context, List<Message> messages, DatabaseReference messageDb) {
-        this.context = context;
-        this.messages = messages;
-        this.messageDb = messageDb;
+        this.context = context; //액티비티
+        this.messages = messages; //보낸 메시지 리사이클뷰에 행을 표시함(세로로 나열되어있는 메시지들)
+        this.messageDb = messageDb; //메시지가 저장되어있는 디비
     }
 
     @NonNull
@@ -41,18 +41,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageAdapterViewHolder holder, int position) { //디비와 결합하것
 
         Message message = messages.get(position);
 
-        if(message.getName().equals(AllMethods.name)){
+        if(message.getName().equals(AllMethods.name)){ //내가 보낸 메시지 즉(메시지를 보낸 이름과 현재 유저의 이름이 일치할경우)
             holder.tvTitle.setText("You"+message.getMessage());
             holder.tvTitle.setGravity(Gravity.START);
-            holder.l1.setBackgroundColor(Color.parseColor("#EF9E73"));
+            holder.l1.setBackgroundColor(Color.parseColor("#EF9E73")); //대화창색깔
         }
         else
         {
-            holder.tvTitle.setText(message.getName()+ ":" +message.getMessage());
+            holder.tvTitle.setText(message.getName()+ ":" +message.getMessage()); //다른 유저가 보낸 대화메시지
             holder.tvTitle.setGravity(View.GONE);
         }
 
@@ -63,13 +63,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
         return messages.size();
     }
 
-    public class MessageAdapterViewHolder extends RecyclerView.ViewHolder
+    public class MessageAdapterViewHolder extends RecyclerView.ViewHolder //메시지가 어떻게 쌓이는지 전체적인 뷰
     {
         TextView tvTitle;
         ImageButton ibDelete;
             LinearLayout l1;
 
-        public MessageAdapterViewHolder(@NonNull View itemView)
+        public MessageAdapterViewHolder(@NonNull View itemView) //하나의 리사이클뷰에는 리니어레이아웃이 담기는데 이 리니어레이아웃이 하나의 메시지를 나타냄 따라서 l1은 하나의 리니어레이아웃 하나의 메시지 안에는 tvTitle=>유저의 아이디, ibDelete=>메시지창에 있는 삭제 버튼
         {
             super(itemView);
             tvTitle=(TextView)itemView.findViewById(R.id.tvTitle);
@@ -78,7 +78,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
 
             ibDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view) { //ib deledte버튼이 눌렸을 시 취해야 할 온클릭리스너
                     messageDb.child(messages.get(getAdapterPosition()).getKey()).removeValue();
                 }
             });
